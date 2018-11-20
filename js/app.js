@@ -36,10 +36,13 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
-const card = document.querySelector('ul li');
+const cards = document.querySelectorAll('.card');
 
-card.addEventListener('click', () => {
-    console.log('You have been clicked');
-    card.classList.add('open', 'show')
+
+
+cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+        card.classList.add('open', 'show');
+    })
 })
 
