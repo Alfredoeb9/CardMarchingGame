@@ -243,7 +243,7 @@ yBtn.addEventListener('click', function(e) {
   movesCounter.innerText = moves;
 
   matched = 0;
-  milliseconds = 0;
+  seconds = 0;
   gameStopwatch();
   openCards = [];
 
