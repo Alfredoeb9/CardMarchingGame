@@ -49,7 +49,7 @@ function initiateGame() {
 }
 
 initiateGame();
-gameStopwatch();
+// gameStopwatch();
 
 // ***** Global Scope Variables ***** //
 
@@ -166,7 +166,7 @@ function starRating() {
 deck.addEventListener('click', event => {
   const clickTarget = event.target;
   if(clickTarget.classList.contains('card')) {
-    //   gameStopwatch();
+      gameStopwatch();
     //  If none of these are active don't do anything
      if (!clickTarget.classList.contains('open') && !clickTarget.classList.contains('show') && !clickTarget.classList.contains('match')) {
          //when a card is clicked push into target
