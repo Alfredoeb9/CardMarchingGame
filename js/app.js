@@ -1,5 +1,5 @@
 //  Programming cards through javascript format from Mike webinar
-//An array holds all of the cards
+//  An array holds all of the cards
 let cards = ['fa-diamond', 'fa-diamond',
               'fa-paper-plane-o', 'fa-paper-plane-o',
               'fa-anchor', 'fa-anchor',
@@ -9,7 +9,7 @@ let cards = ['fa-diamond', 'fa-diamond',
               'fa-bicycle', 'fa-bicycle',
               'fa-bomb', 'fa-bomb'];
 
-//template literal used in a function that generates the cards programatically
+//  template literal used in a function that generates the cards programatically
 function generateCard(card) {
     return `<li class="card" data-card="${card}"><i class="fa ${card}"></i></li>`;
 }
@@ -37,12 +37,11 @@ function shuffle(array) {
 }
 
 
- //function to initiate the game
 function initiateGame() {
-  //stores the unorderd list with the class .deck from the HTML file, where we will put cards
+  //  stores the unorderd list with the class .deck from the HTML file, where we will put cards
   let deck = document.querySelector('.deck');
   let cardHTML = shuffle(cards).map(function(card) {
-    //calls generateCard function for each card
+    //  calls generateCard function for each card
     return generateCard(card);
   });
   deck.innerHTML = cardHTML.join('');
@@ -54,21 +53,21 @@ initiateGame();
 // ***** Global Scope Variables ***** //
 
 
-//variable hold all cards
+//  variable hold all cards
 let allCards = document.querySelectorAll('.card');
-//Array to hold cards that are open. Initially empty.
+//  Array holds all cards
 let openCards = [];
-//moves counter - begins at 0
+//  moves counter
 let moves = 0;
-//selects the moves counter in index.html
+//  Grab the moves counter
 let movesCounter = document.querySelector('.moves');
-//selects the restart game "fa-repeat" icon
+//  Grab the restart game "fa-repeat" icon
 let restartGame = document.querySelector('.fa-repeat');
-//selects minutes section of HTML stopwatch
+//  Grab minutes section
 let displayMinutes = document.querySelector('.minutes');
-//selects seconds section of HTML stopwatch
+//  Grab seconds section
 let displaySeconds = document.querySelector('.seconds');
-//variable for timer to keep track of elapsed milliseconds
+//  variable for timer to keep track of elapsed milliseconds
 let milliseconds = 0;
 let hour = 0;
 let minutes = 0;
@@ -83,16 +82,16 @@ const modal = document.querySelector('.modal');
 const yBtn = document.querySelector('.play-again');
 //  Grab the no button
 const nBtn = document.querySelector('.quit');
-//for gameStopwatch
+//  for gameStopwatch
 var interval;
 
- //event listener for restart game button
+ // event listener for restart game button
  restartGame.addEventListener('click', function(e) {
-   //removes any open, show or match classes from cards
+   // removes any open, show or match classes from cards
    allCards.forEach(function(card) {
      card.classList.remove('open', 'show', 'match');
    });
-   //adds stars back to star rating
+   // adds stars back to star rating
    let stars = document.querySelectorAll('.fa-star');
   stars.forEach(function(element) {
       element.style.display = 'inline-block';
@@ -100,19 +99,19 @@ var interval;
    initiateGame();
    stopTimer();
    console.log('Reinitiate game');
-   //resets # of moves when reset button is clicked
+   // resets # of moves when reset button is clicked
    moves = 0;
    movesCounter.innerText = moves;
-   //moves matched cards tracker back to 0
+   //  moves matched cards tracker back to 0
    matched = 0;
    milliseconds = 0;
    openCards = [];
  });
 
- //game stopwatch function
+ // game stopwatch function
  function gameStopwatch() {
-    //clearInterval(interval); Supposed to reset stopwatch, but not doing anything
-    //setInterval evaluates an expression at specified intervals (every 1000 milliseconds/1 second here)
+    //  clearInterval(interval); Supposed to reset stopwatch, but not doing anything
+    //  setInterval evaluates an expression at specified intervals (every 1000 milliseconds/1 second here)
       interval = setInterval(function() {
       milliseconds++;
       convertSeconds(Math.floor(milliseconds));
@@ -143,7 +142,7 @@ function convertSeconds(milliseconds) {
    }
 }
 
-//function to check how many moves have been made & change star rating
+//  check how many moves have been made and output stars
 function starRating() {
   const three = document.querySelector('.three');
   const two = document.querySelector('.two');
@@ -160,7 +159,7 @@ function starRating() {
   }
 }
 
- //event listner for clicks on cards
+ // Grab deck class
  let deck = document.querySelector('.deck');
 
 deck.addEventListener('click', event => {
@@ -169,7 +168,7 @@ deck.addEventListener('click', event => {
       gameStopwatch();
     //  If none of these are active don't do anything
      if (!clickTarget.classList.contains('open') && !clickTarget.classList.contains('show') && !clickTarget.classList.contains('match')) {
-         //when a card is clicked push into target
+         // when a card is clicked push into target
          openCards.push(clickTarget);
          
          // After click add classes
@@ -181,7 +180,7 @@ deck.addEventListener('click', event => {
          * remove classes open and show
           */
          if (openCards.length == 2) {
-           //if the cards match, add the .match, .open & .show classes
+           // If the cards match, add the .match, .open & .show classes
            if (openCards[0].dataset.card == openCards[1].dataset.card) {
                openCards[0].classList.add('match');
                openCards[0].classList.add('open');
@@ -192,16 +191,16 @@ deck.addEventListener('click', event => {
                openCards[1].classList.add('show');
 
                openCards = [];
-               // If you it is a match add 1 to matched cards
+               // If it is a match add 1 to matched cards
                matched++;
            } else {
-          //if it's not a match, hide the cards again
+          //  If it's not a match, hide the cards again
            setTimeout(function() {
              openCards.forEach(function(card) {
                card.classList.remove('open', 'show');
              });
              openCards = [];
-           }, 350);
+           }, 350); // 300 might be a soomther fit
          }
          // Moves go up please one 
          moves += 1;
@@ -209,9 +208,9 @@ deck.addEventListener('click', event => {
          if (matched === winningPairs) {
            console.log("Game over!");
            clearInterval(interval);
-           //displays modal Window
+           // Displays modal Window
            modal.style.display = 'block';
-           //writes final game stats to the modal window
+           // Writes final game stats to the modal window
            finalStats();
          }
        }
@@ -226,7 +225,7 @@ function finalStats() {
   const officialStars = document.querySelector('.End-stars');
   const officialMinutes = document.querySelector('.minutes').innerHTML;
   const officialSeconds = document.querySelector('.seconds').innerHTML;
-  const stars = starCount();
+  let stars = starCount();
 
   officialTime.innerHTML = `Time: ${officialMinutes}:${officialSeconds}`;
   officialMoves.innerHTML = `Moves: ${moves}`;
@@ -243,11 +242,11 @@ function finalStats() {
     }
   }
 
-  //displays modal window
+  //  set modla to block
   modal.style.display = "block";
 }
 
-//event listener for play again button
+//  when yes btn is clicked restart game 100%
 yBtn.addEventListener('click', function(e) {
   modal.style.display = 'none';
   initiateGame();
@@ -265,7 +264,7 @@ yBtn.addEventListener('click', function(e) {
   })
 });
 
-//event listener for don't play again button
+//  When no btn is clicked set modal to none;
 nBtn.addEventListener('click', function(e) {
   modal.style.display = 'none';
 });
