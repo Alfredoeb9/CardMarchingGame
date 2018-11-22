@@ -68,7 +68,6 @@ let displayMinutes = document.querySelector('.minutes');
 //  Grab seconds section
 let displaySeconds = document.querySelector('.seconds');
 //  variable for timer to keep track of elapsed milliseconds
-let milliseconds = 0;
 let hour = 0;
 let minutes = 0;
 let seconds = 0;
@@ -110,12 +109,15 @@ var interval;
 
  // game stopwatch function
  function gameStopwatch() {
-    //  clearInterval(interval); Supposed to reset stopwatch, but not doing anything
-    //  setInterval evaluates an expression at specified intervals (every 1000 milliseconds/1 second here)
-      interval = setInterval(function() {
-      milliseconds++;
-      convertSeconds(Math.floor(milliseconds));
-    }, 1000);
+
+    interval = setInterval(function() {
+      seconds++;
+      if(seconds == 60) {
+        minutes++;
+        seconds = 0;
+      }
+      formatTimer();
+    }, 1000)
  }
 
  function stopTimer() {
@@ -129,18 +131,6 @@ var interval;
     //  displayMinutes.innerHTML = min;
      displaySeconds.innerHTML = min + ':' + sec;
  }
-
-// converts milliseconds to seconds and minutes to be displayed
-function convertSeconds(milliseconds) {
-  let minutes = Math.floor(((milliseconds % 864000) % 3600) / 60);
-  let seconds = ((milliseconds % 86400) % 3600) % 60;
-  displayMinutes.innerHTML = minutes;
-  if(seconds < 10) {
-     displaySeconds.innerHTML = "0" + seconds;
-} else {
-     displaySeconds.innerHTML = seconds;
-   }
-}
 
 //  check how many moves have been made and output stars
 function starRating() {
