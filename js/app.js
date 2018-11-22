@@ -77,6 +77,12 @@ let seconds = 0;
 let matched = 0;
 //need 8 pairs to win the gameStopwatch
 const winningPairs = 8;
+// Grab the modal 
+const modal = document.querySelector('.modal');
+//  Grab the play button
+const yBtn = document.querySelector('.play-again');
+//  Grab the no button
+const nBtn = document.querySelector('.quit');
 //for gameStopwatch
 var interval;
 
@@ -107,7 +113,7 @@ var interval;
  function gameStopwatch() {
     //clearInterval(interval); Supposed to reset stopwatch, but not doing anything
     //setInterval evaluates an expression at specified intervals (every 1000 milliseconds/1 second here)
-    var interval = setInterval(function() {
+      interval = setInterval(function() {
       milliseconds++;
       convertSeconds(Math.floor(milliseconds));
     }, 1000);
@@ -147,7 +153,10 @@ function starRating() {
     console.log('moves = 10');
   } else if (moves === 15) {
     two.style.display = 'none';
-    console.log('moves = 15')
+    console.log('moves = 15');
+  } else {
+    one.style.display = 'none';
+    console.log('moves = 20');
   }
 }
 
@@ -158,15 +167,19 @@ deck.addEventListener('click', event => {
   const clickTarget = event.target;
   if(clickTarget.classList.contains('card')) {
     //   gameStopwatch();
-    //disables ability to click on a matched card or the same card twice
+    //  If none of these are active don't do anything
      if (!clickTarget.classList.contains('open') && !clickTarget.classList.contains('show') && !clickTarget.classList.contains('match')) {
-         //when a card is clicked, the card gets added to the openCards array
+         //when a card is clicked push into target
          openCards.push(clickTarget);
-         //adds .open and .show classes when card is clicked
+         
+         // After click add classes
          clickTarget.classList.add('open', 'show');
 
-         //if 2 or more cards are showing, see if they are a match or not
-         //since the array gets cleared out each time, there will only be 2 cards in the array at a time
+         /*
+         * If two cards are clicked check if both match
+         * else set timer and 
+         * remove classes open and show
+          */
          if (openCards.length == 2) {
            //if the cards match, add the .match, .open & .show classes
            if (openCards[0].dataset.card == openCards[1].dataset.card) {
@@ -179,7 +192,7 @@ deck.addEventListener('click', event => {
                openCards[1].classList.add('show');
 
                openCards = [];
-               //Adds 1 to matched variable for each pair of matched cards
+               // If you it is a match add 1 to matched cards
                matched++;
            } else {
           //if it's not a match, hide the cards again
@@ -190,6 +203,7 @@ deck.addEventListener('click', event => {
              openCards = [];
            }, 350);
          }
+         // Moves go up please one 
          moves += 1;
          movesCounter.innerText = moves;
          if (matched === winningPairs) {
@@ -204,4 +218,54 @@ deck.addEventListener('click', event => {
       starRating();
      }
    }
+});
+
+function finalStats() {
+  const officialTime = document.querySelector('.End-time');
+  const officialMoves = document.querySelector('.End-moves');
+  const officialStars = document.querySelector('.End-stars');
+  const officialMinutes = document.querySelector('.minutes').innerHTML;
+  const officialSeconds = document.querySelector('.seconds').innerHTML;
+  const stars = starCount();
+
+  officialTime.innerHTML = `Time: ${officialMinutes}:${officialSeconds}`;
+  officialMoves.innerHTML = `Moves: ${moves}`;
+
+  function starCount() {
+    findStars = document.querySelectorAll('.stars li');
+    finalStars = 0;
+    for (findStar of findStars) {
+      if (findStar.style.display !== 'none') {
+        finalStars++;
+        officialStars.innerHTML = `Stars: ${finalStars}`;
+        console.log(finalStars);
+      }
+    }
+  }
+
+  //displays modal window
+  modal.style.display = "block";
+}
+
+//event listener for play again button
+yBtn.addEventListener('click', function(e) {
+  modal.style.display = 'none';
+  initiateGame();
+  moves = 0;
+  movesCounter.innerText = moves;
+
+  matched = 0;
+  milliseconds = 0;
+  gameStopwatch();
+  openCards = [];
+
+  let stars = document.querySelectorAll('.fa-star');
+  stars.forEach(function(e) {
+    e.style.display = 'inline-block;'
+  })
+});
+
+//event listener for don't play again button
+nBtn.addEventListener('click', function(e) {
+  modal.style.display = 'none';
 });
