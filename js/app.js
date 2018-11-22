@@ -103,7 +103,6 @@ var interval;
    movesCounter.innerText = moves;
    //  moves matched cards tracker back to 0
    matched = 0;
-   milliseconds = 0;
    openCards = [];
  });
 
