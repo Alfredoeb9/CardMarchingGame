@@ -48,7 +48,6 @@ function initiateGame() {
 }
 
 initiateGame();
-// gameStopwatch();
 
 // ***** Global Scope Variables ***** //
 
@@ -94,16 +93,12 @@ var interval;
    let stars = document.querySelectorAll('.fa-star');
   stars.forEach(function(element) {
       element.style.display = 'inline-block';
-  })
-   initiateGame();
-   stopTimer();
-   console.log('Reinitiate game');
-   // resets # of moves when reset button is clicked
-   moves = 0;
-   movesCounter.innerText = moves;
-   //  moves matched cards tracker back to 0
-   matched = 0;
-   openCards = [];
+  });
+
+  initiateGame();
+
+  reset();
+
  });
 
  // game stopwatch function
@@ -121,13 +116,11 @@ var interval;
 
  function stopTimer() {
      clearInterval(interval);
-     displaySeconds.innerHTML = gameStopwatch();
  }
 
  function formatTimer() {
      let sec = seconds > 9 ? String(seconds) : "0" + String(seconds);
      let min = minutes > 9 ? String(minutes) : "0" + String(minutes);
-    //  displayMinutes.innerHTML = min;
      displaySeconds.innerHTML = min + ':' + sec;
  }
 
@@ -150,11 +143,17 @@ function starRating() {
 
  // Grab deck class
  let deck = document.querySelector('.deck');
+ let initialClick = true;
 
 deck.addEventListener('click', event => {
   const clickTarget = event.target;
+  //  When first clicked is fired start timer and set to false
+  if(initialClick) {
+    gameStopwatch();
+    initialClick = false;
+  }
   if(clickTarget.classList.contains('card')) {
-      gameStopwatch();
+      // gameStopwatch();
     //  If none of these are active don't do anything
      if (!clickTarget.classList.contains('open') && !clickTarget.classList.contains('show') && !clickTarget.classList.contains('match')) {
          // when a card is clicked push into target
@@ -195,7 +194,6 @@ deck.addEventListener('click', event => {
          moves += 1;
          movesCounter.innerText = moves;
          if (matched === winningPairs) {
-           console.log("Game over!");
            clearInterval(interval);
            // Displays modal Window
            modal.style.display = 'block';
@@ -245,6 +243,7 @@ yBtn.addEventListener('click', function(e) {
   matched = 0;
   seconds = 0;
   gameStopwatch();
+  seconds.innerHTML = "";
   openCards = [];
 
   let stars = document.querySelectorAll('.fa-star');
@@ -257,3 +256,26 @@ yBtn.addEventListener('click', function(e) {
 nBtn.addEventListener('click', function(e) {
   modal.style.display = 'none';
 });
+
+function reset() {
+  modal.style.display = 'none';
+  initiateGame();
+  moves = 0;
+  movesCounter.innerText = 0;
+  
+  stopTimer();
+
+  initialClick = true;
+  matched = 0;
+  seconds = 0;
+  minutes = 0;
+  hour = 0;
+  formatTimer();
+  openCards = [];
+
+  let stars = document.querySelectorAll('.fa-star');
+  stars.forEach(function(e) {
+    e.style.display = 'inline-block;'
+  })
+
+}
