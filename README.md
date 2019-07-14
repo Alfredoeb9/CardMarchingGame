@@ -30,3 +30,5 @@ If you do wish to contribute just send in a pull request. There are still some i
 * Thank you to all fellow udacity students for help
 * Udacity webinars/ forums
 * Dedication and Inspiration
+
+[Vist this link to check it out.] https://alfredoeb9.github.io/CardMatchingGame/
